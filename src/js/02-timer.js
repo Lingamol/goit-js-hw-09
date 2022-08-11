@@ -54,6 +54,7 @@ function onClickBtnStart() {
 function dateRender() {
   if (isTimerFinish) {
     clearInterval(intervalId);
+    isTimerFinish = false;
     return;
   } else {
     const date = Date.now();
