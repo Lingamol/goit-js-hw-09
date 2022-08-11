@@ -41,9 +41,6 @@ const fp = flatpickr('#datetime-picker', options);
 
 refs.btnStart.setAttribute('disabled', true);
 
-// if (isTimerFinish) {
-//   clearInterval(timerId);
-// }
 refs.btnStart.addEventListener('click', onClickBtnStart);
 
 function onClickBtnStart() {
