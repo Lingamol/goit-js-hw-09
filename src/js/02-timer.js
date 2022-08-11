@@ -52,10 +52,10 @@ function onClickBtnStart() {
   } else {
     refs.btnStart.setAttribute('disabled', true);
     fp._input.setAttribute('disabled', true);
-    intervalId = setInterval(dateRender, 1000);
+    intervalId = setInterval(updateTimer, 1000);
   }
 }
-function dateRender() {
+function updateTimer() {
   if (isTimerFinish) {
     clearInterval(intervalId);
     isTimerFinish = false;
