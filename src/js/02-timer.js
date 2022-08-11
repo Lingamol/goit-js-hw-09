@@ -24,7 +24,7 @@ const options = {
     } else {
       refs.btnStart.removeAttribute('disabled', true);
     }
-    console.log(selectedDates[0]);
+    // console.log(selectedDates[0]);
   },
 };
 
@@ -47,9 +47,16 @@ refs.btnStart.setAttribute('disabled', true);
 refs.btnStart.addEventListener('click', onClickBtnStart);
 
 function onClickBtnStart() {
-  refs.btnStart.setAttribute('disabled', true);
-  fp._input.setAttribute('disabled', true);
-  intervalId = setInterval(dateRender, 1000);
+  const date = Date.now();
+  if (selectedDate - date < 0) {
+    Notiflix.Notify.failure('Please choose a date in the future.');
+    refs.btnStart.setAttribute('disabled', true);
+    return;
+  } else {
+    refs.btnStart.setAttribute('disabled', true);
+    fp._input.setAttribute('disabled', true);
+    intervalId = setInterval(dateRender, 1000);
+  }
 }
 function dateRender() {
   if (isTimerFinish) {
@@ -60,7 +67,7 @@ function dateRender() {
     const date = Date.now();
     const timer = selectedDate - date;
     if (timer > 0) {
-      console.log(convertMs(timer));
+      // console.log(convertMs(timer));
       const { days, hours, minutes, seconds } = convertMs(timer);
 
       refs.days.textContent = days;
