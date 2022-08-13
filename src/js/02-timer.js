@@ -4,10 +4,9 @@ import flatpickr from 'flatpickr';
 import 'flatpickr/dist/flatpickr.min.css';
 import Notiflix from 'notiflix';
 import 'notiflix/dist/notiflix-3.2.5.min.css';
-import convertMs from './convertMs.js';
+import { updateTimerFace, convertMs } from './functions';
 let selectedDate;
-let intervalId = null;
-let isTimerFinish = false;
+
 const options = {
   enableTime: true,
   time_24hr: true,
@@ -52,33 +51,36 @@ function onClickBtnStart() {
   } else {
     refs.btnStart.setAttribute('disabled', true);
     fp._input.setAttribute('disabled', true);
-    intervalId = setInterval(updateTimer, 1000);
+    timer.start();
   }
 }
-function updateTimer() {
-  if (isTimerFinish) {
-    clearInterval(intervalId);
-    isTimerFinish = false;
-    return;
-  } else {
-    const date = Date.now();
-    const timer = selectedDate - date;
-    if (timer > 0) {
-      // console.log(convertMs(timer));
-      const { days, hours, minutes, seconds } = convertMs(timer);
 
-      refs.days.textContent = days;
-      refs.hours.textContent = addLeadingZero(hours.toString());
-      refs.minutes.textContent = addLeadingZero(minutes.toString());
-      refs.seconds.textContent = addLeadingZero(seconds.toString());
-    } else {
-      isTimerFinish = true;
-      Notiflix.Notify.success('Timer finish!');
-      refs.datetime.removeAttribute('disabled', true);
-      fp._input.removeAttribute('disabled', true);
+const timer = {
+  intervalId: null,
+  isActive: false,
+
+  start() {
+    if (this.isActive) {
+      return;
     }
-  }
-}
-function addLeadingZero(value) {
-  return value.padStart(2, '0');
-}
+    const finalTime = selectedDate;
+    this.isActive = true;
+    this.intervalId = setInterval(() => {
+      const currentTime = Date.now();
+      const deltaTime = finalTime - currentTime;
+      if (deltaTime > 0) {
+        const { days, hours, minutes, seconds } = convertMs(deltaTime);
+        updateTimerFace({ days, hours, minutes, seconds }, refs);
+      } else {
+        Notiflix.Notify.success('Timer finish!');
+        this.stop();
+        refs.datetime.removeAttribute('disabled', true);
+        fp._input.removeAttribute('disabled', true);
+      }
+    }, 1000);
+  },
+  stop() {
+    clearInterval(this.intervalId);
+    this.isActive = false;
+  },
+};

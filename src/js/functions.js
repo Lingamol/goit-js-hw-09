@@ -1,4 +1,13 @@
-export default function convertMs(ms) {
+function addLeadingZero(value) {
+  return value.padStart(2, '0');
+}
+export function updateTimerFace({ days, hours, minutes, seconds }, refs) {
+  refs.days.textContent = days;
+  refs.hours.textContent = addLeadingZero(hours.toString());
+  refs.minutes.textContent = addLeadingZero(minutes.toString());
+  refs.seconds.textContent = addLeadingZero(seconds.toString());
+}
+export function convertMs(ms) {
   // Number of milliseconds per unit of time
   const second = 1000;
   const minute = second * 60;
