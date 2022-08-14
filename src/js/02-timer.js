@@ -46,7 +46,9 @@ refs.btnStart.addEventListener('click', onClickBtnStart);
 function onClickBtnStart() {
   const date = Date.now();
   if (Date.now() > selectedDate) {
-    Notiflix.Notify.failure('Please choose a date in the future.');
+    Notiflix.Notify.failure('Please choose a date in the future.', {
+      position: 'center-center',
+    });
     refs.btnStart.setAttribute('disabled', true);
     return;
   } else {
@@ -73,7 +75,9 @@ const timer = {
         const { days, hours, minutes, seconds } = convertMs(deltaTime);
         updateTimerFace({ days, hours, minutes, seconds }, refs);
       } else {
-        Notiflix.Notify.success('Timer finish!');
+        Notiflix.Notify.success('Timer finish!', {
+          position: 'center-center',
+        });
         this.stop();
         refs.datetime.removeAttribute('disabled', true);
         fp._input.removeAttribute('disabled', true);
