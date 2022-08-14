@@ -14,11 +14,12 @@ const options = {
   minuteIncrement: 1,
 
   onClose(selectedDates) {
-    const date = Date.now();
     selectedDate = selectedDates[0];
 
-    if (selectedDate - date < 0) {
-      Notiflix.Notify.failure('Please choose a date in the future.');
+    if (Date.now() > selectedDate) {
+      Notiflix.Notify.failure('Please choose a date in the future.', {
+        position: 'center-center',
+      });
       return;
     } else {
       refs.btnStart.removeAttribute('disabled', true);
