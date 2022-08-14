@@ -45,7 +45,7 @@ refs.btnStart.addEventListener('click', onClickBtnStart);
 
 function onClickBtnStart() {
   const date = Date.now();
-  if (selectedDate - date < 0) {
+  if (Date.now() > selectedDate) {
     Notiflix.Notify.failure('Please choose a date in the future.');
     refs.btnStart.setAttribute('disabled', true);
     return;
